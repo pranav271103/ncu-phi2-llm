@@ -1,8 +1,3 @@
----
-license: apache-2.0
-base_model:
-- microsoft/phi-2
----
 # NCU Smart LLM (phi2-ncu) — Smart LLM Fine-tuned for NCU Tasks
 
 <p align="center">
