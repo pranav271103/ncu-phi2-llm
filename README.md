@@ -24,12 +24,30 @@
 | Platform           | Access Method                                                               |
 | ------------------ | --------------------------------------------------------------------------- |
 | Hugging Face       | [phi2-ncu-model](https://huggingface.co/pranav2711/phi2-ncu-model)          |
-| Hugging Face Space | [Live Chatbot Demo](https://huggingface.co/spaces/pranav2711/phi2-ncu-chat-space) |
-| Ollama (Offline)   | `ollama create phi2-ncu -f Modelfile` *(self-hosted only)*                  |
+| Hugging Face       | [mistral-7b-ncu-fp32](https://huggingface.co/pranav2711/ncu-smartllm-fp32)  |
 
 ---
 
-## Phi2B - How to Use Locally (Hugging Face Transformers)
+## [Mistral 7B](https://huggingface.co/pranav2711/ncu-smartllm-fp32)  - How to Use Locally (Hugging Face Transformers) [Recommended]
+
+```bash
+pip install transformers accelerate
+```
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model = AutoModelForCausalLM.from_pretrained("pranav2711/ncu-smartllm-fp32", device_map="auto")
+tokenizer = AutoTokenizer.from_pretrained("pranav2711/ncu-smartllm-fp32")
+
+prompt = "### Question:\nHow do I apply for hostel at NCU?\n\n### Answer:"
+inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+outputs = model.generate(**inputs, max_new_tokens=200)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+```
+
+---
+
+## [Phi2B](https://huggingface.co/pranav2711/phi2-ncu-model) - How to Use Locally (Hugging Face Transformers)
 
 ```bash
 pip install transformers accelerate peft
@@ -53,24 +71,6 @@ model = PeftModel.from_pretrained(model, adapter_path)
 # Inference
 input_prompt = "### Question:\nHow can I apply for re-evaluation at NCU?\n\n### Answer:"
 inputs = tokenizer(input_prompt, return_tensors="pt").to("cuda")
-outputs = model.generate(**inputs, max_new_tokens=200)
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
-```
----
-
-## Mistral 7B - How to Use Locally (Hugging Face Transformers)
-
-```bash
-pip install transformers accelerate
-```
-```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
-
-model = AutoModelForCausalLM.from_pretrained("pranav2711/ncu-smartllm-fp32", device_map="auto")
-tokenizer = AutoTokenizer.from_pretrained("pranav2711/ncu-smartllm-fp32")
-
-prompt = "### Question:\nHow do I apply for hostel at NCU?\n\n### Answer:"
-inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
 outputs = model.generate(**inputs, max_new_tokens=200)
 print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 ```
