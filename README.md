@@ -29,19 +29,7 @@
 
 ---
 
-##  Try It Online
-
-### Gradio Web Chat (Hugging Face Space) (Runs Slow because of free CPU Hardware)
-
-```bash
-👉 Visit: https://huggingface.co/spaces/pranav2711/phi2-ncu-chat-space
-```
-
-* Built using `Gradio`, deployed on Hugging Face Spaces
-
----
-
-## How to Use Locally (Hugging Face Transformers)
+## Phi2B - How to Use Locally (Hugging Face Transformers)
 
 ```bash
 pip install transformers accelerate peft
@@ -68,32 +56,23 @@ inputs = tokenizer(input_prompt, return_tensors="pt").to("cuda")
 outputs = model.generate(**inputs, max_new_tokens=200)
 print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 ```
-
 ---
 
-## How to Use with Ollama (Offline)
-
-> This works only **locally** via `ollama create` and **not yet shareable** as public Ollama model hub is restricted.
-
-### Folder Structure
-
-```
-phi2-ncu/
-├── Modelfile
-└── model/
-    ├── model.safetensors
-    ├── config.json
-    ├── tokenizer.json
-    ├── tokenizer_config.json
-    ├── vocab.json
-    ├── merges.txt
-```
-
-### Steps
+## Mistral 7B - How to Use Locally (Hugging Face Transformers)
 
 ```bash
-ollama create phi2-ncu -f Modelfile
-ollama run phi2-ncu
+pip install transformers accelerate
+```
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model = AutoModelForCausalLM.from_pretrained("pranav2711/ncu-smartllm-fp32", device_map="auto")
+tokenizer = AutoTokenizer.from_pretrained("pranav2711/ncu-smartllm-fp32")
+
+prompt = "### Question:\nHow do I apply for hostel at NCU?\n\n### Answer:"
+inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+outputs = model.generate(**inputs, max_new_tokens=200)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 ```
 
 ---
